@@ -1,5 +1,5 @@
-import IssueList from "./GameList";
-import { getIssues } from './fetchIssueData';
+import GameList from "./GameList";
+import { getGames } from './fetchGameData';
 import { useState }  from "react";
 
 /**
@@ -8,22 +8,22 @@ import { useState }  from "react";
 const Home = () => {
     const [error, setError] = useState('');
     const [isPending, setIsPending] = useState(false);
-    const [issues, setIssues] = useState(null);
+    const [games, setGames] = useState(null);
     const [repoOwner, setRepoOwner] = useState('');
     const [repoName, setRepoName] = useState('');
     const [personalAccessToken, setPersonalAccessToken] = useState('');
-    //const [issueState, setIssueState] = useState('open');
+    //const [gameState, setGameState] = useState('open');
     
     /**
-     * Handles the submission of form to get the list of issues
+     * Handles the submission of form to get the list of games
      */
     async function handleSubmit(e) {
         e.preventDefault();
         setIsPending(true);
-        const getIssuesData = await getIssues(repoOwner, repoName, personalAccessToken);
+        const getGamesData = await getGames(repoOwner, repoName, personalAccessToken);
         setIsPending(false);
-        setError(getIssuesData.error);
-        setIssues(getIssuesData.issues);
+        setError(getGamesData.error);
+        setGames(getGamesData.games);
     };
 
     return (
@@ -45,13 +45,13 @@ const Home = () => {
                     onChange={(e) => setRepoName(e.target.value)} 
                 />
                 <br></br>
-                <button>See issues</button>
+                <button>See games</button>
             </form>
         
             { error && <div>{ error }</div> }
-            { issues && <IssueList issues={issues} personalAccessToken={personalAccessToken} repoOwner={repoOwner} repoName={repoName}/> }
+            { games && <GameList games={games} personalAccessToken={personalAccessToken} repoOwner={repoOwner} repoName={repoName}/> }
             { isPending && <div>Loading...</div> }
-            { (!issues && !error && !isPending) && <div>Please enter the information for the repo you'd like to see</div> }
+            { (!games && !error && !isPending) && <div>Please enter the information for the repo you'd like to see</div> }
         </div>
     );
 }
