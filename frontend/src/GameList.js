@@ -1,26 +1,24 @@
 import { Link } from 'react-router-dom';
 
 /**
- * Lists preview of each issue, including its title, and opener. Each issue links to IssueDetails.
- * @param {object} props contains the issues, personalAccessToken, repoOwner, and repoName.
+ * Lists preview of each game, including its name, and a brief description. Each game links to GameDetails.
+ * @param {object} props contains the games, personalAccessToken.
  */
-const IssueList = (props) => {
-    let issues = props.issues;
+const GameList = (props) => {
+    let games = props.games;
     let personalAccessToken = props.personalAccessToken;
-    let repoOwner = props.repoOwner;
-    let repoName = props.repoName;
     const personalAccessTokenData = {
         'personalAccessToken': `${personalAccessToken}`
     };
     return (
-        <div className="issue-list">
+        <div className="game-list">
             <section>
-                {issues.map(issue => (
-                    <article className="issue-preview" key={issue.number}>
+                {games.map(game => (
+                    <article className="game-preview" key={game.title}>
                         <div>
-                            <Link to={`/issues/${repoOwner}/${repoName}/${issue.number}`} state={personalAccessTokenData}>
-                                <h2>{ issue.title }</h2>
-                                <p>Opened by { issue.user.login }</p>
+                            <Link to={`/games/${game.title}`} state={personalAccessTokenData}>
+                                <h2>{ game.title }</h2>
+                                <p>Opened by { game.desc }</p>
                             </Link>
                         </div>
                     </article>
@@ -30,4 +28,4 @@ const IssueList = (props) => {
     );
 };
 
-export default IssueList;
+export default GameList;
